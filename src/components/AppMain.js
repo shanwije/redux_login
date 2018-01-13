@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import {
+  Dimensions,
   Platform,
   StyleSheet,
   Text,
@@ -50,7 +51,7 @@ class AppMain extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: 100,
+    width: Dimensions.get('window').width,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
