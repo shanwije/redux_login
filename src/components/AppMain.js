@@ -13,28 +13,44 @@ import {
   Button
 } from 'react-native';
 import { connect } from 'react-redux';
-import {fetchData } from '../actions/starwarsAction';
+import { fetchData } from '../actions/starwarsAction';
 
 
 class AppMain extends Component {
 
 
-constructor(props){
+  constructor(props) {
     super(props);
     this.props = props;
+    this.state = { showData: false }
 
-}
+  }
+  componentWillMount() {
+
+    console.log("loading for the first time");
+  }
+  componentDidMount() {
+    console.log("loading for the did mount");
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Button title='fetchdata' onPress={this.props.getSWData} />
-      </View>
+        {this.props.starwars.isFetching && <View style={styles.container}>
+          <Text>Loading..........</Text>
+        </View>}
+        {(!this.props.starwars.isFetching) && <View style={styles.container}>
+          {this.props.starwars.data.map(person => <Text key={person.birth_year+person.name} style={{ color: 'red', fontSize: 20, textAlign: 'center' }}>{person.name}</Text>)}
+        </View>}
+        </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    width: 100,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -52,18 +68,18 @@ const styles = StyleSheet.create({
   },
 });
 
-mapStateToProps = (state) =>{
-    console.log("XXXXXXXXXXXXX state",state);
-    return({
-        starwars : state.starwars
-    });
+mapStateToProps = (state) => {
+  console.log("XXXXXXXXXXXXX state", state);
+  return ({
+    starwars: state.starwars
+  });
 }
 
-mapDispatchToProps = (dispatch) =>{
-    console.log('dispatching app main');
-    return({
-        getSWData : () =>dispatch(fetchData())
-    });
+mapDispatchToProps = (dispatch) => {
+  console.log('dispatching app main');
+  return ({
+    getSWData: () => dispatch(fetchData())
+  });
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppMain);
