@@ -27,7 +27,7 @@ class StarItem extends Component{
             <View key={this.ListItem.name} style={{ backgroundColor:'blue', borderColor:'red', borderWidth:2, flex:4, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={{color:'#000', fontSize:20, textAlign: 'center'}} >{this.ListItem.name}</Text>
             <Button title='select' onPress={()=> this.itemSelected(this.ListItem.name)} ></Button>
-            {(this.ListItem.name == this.props.selected.key) && <View style={{backgroundColor: '#fff',width: Dimensions.get('window').width ,flex:1}}>
+            {this.props.expand && <View style={{backgroundColor: '#fff',width: Dimensions.get('window').width ,flex:1}}>
                 <Text>{"Skin Color :"+this.ListItem.skin_color}</Text>
                 <Text>{"Eye Color :"+ this.ListItem.eye_color}</Text>
                 <Text>{"Birth Year :"+ this.ListItem.birth_year}</Text>
@@ -40,7 +40,7 @@ class StarItem extends Component{
 
     itemSelected( ListItem){
         console.log("pressed ......", ListItem);
-        if(this.ListItem.name == this.props.selected.key){
+        if(this.props.expand){
             this.props.swDeselect(ListItem);
         }else{
             this.props.swSelect(ListItem);
@@ -49,9 +49,17 @@ class StarItem extends Component{
     }
   }
 
-  const mapStateToProps = (state) => {
+//   const mapStateToProps = (state, ownProps) => {
+//     return {
+//         selected : state.starItem
+//     }
+// }
+
+const mapStateToProps = (state, ownProps) => {
+    console.log("ownProps",ownProps);
+    const expand = (ownProps.sItem.name == state.starItem.key);
     return {
-        selected : state.starItem
+        expand
     }
 }
 
