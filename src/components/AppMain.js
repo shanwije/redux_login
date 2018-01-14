@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from '../actions/starwarsAction';
+import StarList from './StarList';
 
 
 class AppMain extends Component {
@@ -38,12 +39,13 @@ class AppMain extends Component {
     return (
       <View style={styles.container}>
         <Button title='fetchdata' onPress={this.props.getSWData} />
+        {(!this.props.starwars.isFetching) && (this.props.starwars.data.length != 0) && <StarList style={{width: Dimensions.get('window').width, flex:1}} list={this.props.starwars.data}/>}
         {this.props.starwars.isFetching && <View style={styles.container}>
           <Text>Loading..........</Text>
         </View>}
-        {(!this.props.starwars.isFetching) && <View style={styles.container}>
-          {this.props.starwars.data.map(person => <Text key={person.birth_year+person.name} style={{ color: 'red', fontSize: 20, textAlign: 'center' }}>{person.name}</Text>)}
-        </View>}
+        {/* {(!this.props.starwars.isFetching) && <View style={styles.container}>
+          {this.props.starwars.data.map(person => <Text key={person.birth_year+person.name} style={{ color: 'red', fontSize: 20, textAlign: 'center', backgroundColor:'yellow' }}>{person.name}</Text>)}
+        </View>} */}
         </View>
     );
   }
